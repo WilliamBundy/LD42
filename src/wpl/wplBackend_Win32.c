@@ -1,3 +1,4 @@
+#ifndef WPL_WIN32_ONLY_HOTFILE
 #ifndef WPL_WINDOWS
 #error "Win32 Backend only functions under WPL_WINDOWS"
 #endif
@@ -590,6 +591,7 @@ isize wLoadLocalSizedFile(
 	snprintf(buf, 1024, "%s%s", window->basePath, filename);
 	return wLoadSizedFile(buf, buffer, bufferSize);
 }
+#endif
 
 wFileHandle wGetFileHandle(string filename)
 {

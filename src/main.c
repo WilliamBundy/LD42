@@ -73,6 +73,7 @@ int main(int argc, char** argv)
 		wMemoryInfo memInfo = wGetMemoryInfo();
 		wMemoryArena* arena = wArenaBootstrap(memInfo, 0);
 		game = wArenaPush(arena, sizeof(Game));
+		game->arena = arena;
 		game->window = wArenaPush(arena, sizeof(wWindow));
 		game->state = wArenaPush(arena, sizeof(wState));
 		game->input = wArenaPush(arena, sizeof(wInputState));

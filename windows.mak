@@ -60,8 +60,8 @@ gameNoCRT:
 		ole32.lib winmm.lib
 
 start:
-	$(ctime) -begin usr/bin/rituals.ctm
+	$(ctime) -begin usr/bin/ld42.ctm
 
 end:
 	del *.obj >nul 2>&1
-	$(ctime) -end usr/bin/rituals.ctm
+	$(ctime) -end usr/bin/ld42.ctm

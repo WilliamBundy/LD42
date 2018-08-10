@@ -1,11 +1,9 @@
 @echo off
 set ctime=usr\bin\ctime.exe
-%ctime% -begin usr\bin\vcvars.ctm
 set msvcdir="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\"
 if not defined DevEnvDir call %msvcdir%vcvars64.bat >nul
 rem set msvcdir="C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\"
 rem if not defined DevEnvDir call %msvcdir%vcvarsx86_amd64.bat
-%ctime% -end usr\bin\vcvars.ctm
 
 if not exist bin mkdir bin
 copy usr\lib\*.dll bin\ >nul 2>&1

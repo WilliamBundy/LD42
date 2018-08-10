@@ -361,28 +361,9 @@ isize wLoadLocalSizedFile(
 }
 
 #ifdef WPL_WINDOWS
-wFileHandle wGetFileHandle(string filename)
-{
-	wLogError(0, "wGetFileHandle not implemented for this backend (SDL)");
-	return NULL;
-}
-
-void wCloseFileHandle(wFileHandle handle)
-{
-	wLogError(0, "wCloseFileHandle not implemented for this backend (SDL)");
-}
-
-isize wGetFileSize(wFileHandle file)
-{
-	wLogError(0, "wGetFileSize not implemented for this backend (SDL)");
-	return -1;
-}
-
-isize wGetFileModifiedTime(wFileHandle file)
-{
-	wLogError(0, "wGetFileModifiedTime not implemented for this backend (SDL)");
-	return -1;
-}
+#define WPL_WIN32_ONLY_HOTFILE
+// hacky, but fine :)
+#include "wplBackend_Win32.c"
 #elif defined(WPL_LINUX) || defined(WPL_MACOS)
 
 wFileHandle wGetFileHandle(string filename)
