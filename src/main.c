@@ -2,15 +2,19 @@
 #define $(...)
 
 $(exclude);
-//#include <float.h>
-#define FLT_MAX 3.402823e+38 
+#include <float.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+
 #include "wpl/wpl.h"
 #define WBTM_API static
-#define WBTM_CRT_REPLACE
 #include "wpl/thirdparty/wb_tm.c"
+#include "generated.h"
 $(end);
 
-Game game = {0};
+Game* game = NULL;
 
 #include "inputUtil.c"
 #include "random.c"
@@ -24,10 +28,19 @@ struct Game
 {
 	wMemoryInfo memInfo;
 	wMemoryArena* arena;
-	wWindow window;
-	wState state;
-	wInputState input;
-	wMixer mixer;
+	wWindow* window;
+	wState* state;
+	wInputState* input;
+	wMixer* mixer;
+
+	wHotFile* fragShader;
+	wHotFile* vertShader;
+	wShader* shader;
+	wTexture* texture;
+
+	wFontInfo* bodyFont;
+	wFontInfo* monoFont;
+	wFontInfo* titleFont;
 };
 #endif
 
@@ -54,37 +67,38 @@ void update()
 	// game loop here
 }
 
-void GameMain()
+int main(int argc, char** argv)
 {
-	printf("");
-	game.memInfo = wGetMemoryInfo();
-	game.arena = wArenaBootstrap(game.memInfo, 0);
+	{
+		wMemoryInfo memInfo = wGetMemoryInfo();
+		wMemoryArena* arena = wArenaBootstrap(memInfo, 0);
+		game = wArenaPush(arena, sizeof(Game));
+		game->window = wArenaPush(arena, sizeof(wWindow));
+		game->state = wArenaPush(arena, sizeof(wState));
+		game->input = wArenaPush(arena, sizeof(wInputState));
+		game->mixer = wArenaPush(arena, sizeof(wMixer));
+	}
 
 	wWindowDef def = wDefineWindow("LUDUM DARE 42");
 	
-	wCreateWindow(&def, &game.window);
-	wInitState(&game.window, &game.state, &game.input);
-	wInitAudio(&game.window, &game.mixer, 32, game.arena);
+	wCreateWindow(&def, game->window);
+	wInitState(game->window, game->state, game->input);
+	wInitAudio(game->window, game->mixer, 32, game->arena);
 	 
 	load();
 
-	createGraphicsDependencies();
-	game.batch = createSpriteBatch(4096 * 4096, game.arena);
+	//createGraphicsDependencies();
+	//game.batch = createSpriteBatch(4096 * 4096, game.arena);
 	
 	init();
 
-	i32 running = 1;
-	while(!game.state.exitEvent) {
-		wUpdate(&game.window, &game.state);
+	while(!game->state->exitEvent) {
+		wUpdate(game->window, game->state);
 		update();
-		wRender(&game.window);
+		wRender(game->window);
 	}
 
 	wQuit();
-}
-
-int main(int argc, char** argv)
-{
-	GameMain();
 	return 0;
 }
+

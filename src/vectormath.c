@@ -1,3 +1,8 @@
+
+#define minf wb_minf
+#define maxf wb_maxf
+#define clampf wb_clampf
+
 #ifndef WirmphtEnabled
 union Vec2 
 {
@@ -327,8 +332,8 @@ static inline
 Vec2 v2Min(Vec2 a, Vec2 b)
 {
 	Vec2 v;
-	v.x = minf(a.x, b.x);
-	v.y = minf(a.y, b.y);
+	v.x = wb_minf(a.x, b.x);
+	v.y = wb_minf(a.y, b.y);
 	return v;
 }
 
@@ -336,8 +341,8 @@ static inline
 Vec2 v2Max(Vec2 a, Vec2 b)
 {
 	Vec2 v;
-	v.x = maxf(a.x, b.x);
-	v.y = maxf(a.y, b.y);
+	v.x = wb_maxf(a.x, b.x);
+	v.y = wb_maxf(a.y, b.y);
 	return v;
 }
 

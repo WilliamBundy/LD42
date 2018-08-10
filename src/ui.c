@@ -60,11 +60,11 @@ void guiStart(Gui* gui)
 	}
 
 	gui->isActive = 1;
-	gui->mouse = v2(game.state.mouseX, game.state.mouseY);
+	gui->mouse = v2(game->state->mouseX, game->state->mouseY);
 	v2ScaleP(&gui->mouse, 1.0 / gui->batch->scale);
 	v2AddP(&gui->mouse, gui->batch->pos);
 
-	gui->mouseState = game.input.mouse[wMouseLeft];
+	gui->mouseState = game->input->mouse[wMouseLeft];
 }
 
 void guiEnd(Gui* gui)
@@ -302,7 +302,7 @@ i32 guiIcoBtn(Gui* gui, Rect2i icon)
 
 void guiLabel(Gui* gui, string text) 
 {
-	guiLabelEx(gui, text, game.bodyFont, 16 * gui->textScale, 0.95, 0);
+	//guiLabelEx(gui, text, game->bodyFont, 16 * gui->textScale, 0.95, 0);
 }
 
 void guiLabelEx(Gui* gui, string text, wFontInfo* font, 

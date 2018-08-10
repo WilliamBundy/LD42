@@ -37,7 +37,7 @@
 // On WPL_LINUX, you have to use WPL_SDL_BACKEND
 // On WPL_WINDOWS, you can use either WPL_WIN32_BACKEND or WPL_SDL_BACKEND
 
-#if !defined(WPL_WINDOWS) && !defined(WPL_LINUX)
+#if !defined(WPL_WINDOWS) && !defined(WPL_LINUX) && !defined(WPL_MACOS)
 #if _MSC_VER
 #define WPL_WINDOWS
 #else

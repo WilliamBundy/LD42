@@ -360,11 +360,6 @@ isize wLoadLocalSizedFile(
 	return wLoadSizedFile(buf, buffer, bufferSize);
 }
 
-// These require using stat
-// and I'm not particularly able to test unix code right now
-// internally, these are only used by dev features
-// so, uh, yeah 
-// TODO(will): fancy up the unix backend
 #ifdef WPL_WINDOWS
 wFileHandle wGetFileHandle(string filename)
 {
@@ -419,3 +414,4 @@ isize wGetFileModifiedTime(wFileHandle file)
 #endif
 }
 #endif
+

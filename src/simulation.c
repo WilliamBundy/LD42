@@ -189,11 +189,11 @@ SimBody* simAddBody(SimWorld* sim, Vec2 pos, Vec2 size, i32 shape)
 // we don't provide a separate init function
 SimWorld* createSimWorld(isize bodyCapacity)
 {
-	wMemoryArena* arena = wArenaBootstrap(game.memInfo, wArena_Normal);
+	wMemoryArena* arena = wArenaBootstrap(game->memInfo, wArena_Normal);
 	SimWorld* sim = wArenaPush(arena, sizeof(SimWorld));
 	sim->arena = arena;
 
-	sim->bodyPool = wPoolBootstrap(game.memInfo, sizeof(SimBody), wPool_Normal);
+	sim->bodyPool = wPoolBootstrap(game->memInfo, sizeof(SimBody), wPool_Normal);
 
 	sim->bodyStorage = sim->bodyPool->slots;
 	sim->bodyCount = 0;

@@ -43,7 +43,6 @@ void wUnlockAudioDevice(wWindow* window);
 
 static void wInputUpdate(wInputState* wInput);
 #ifdef WPL_WIN32_BACKEND
-
 #include "wplBackend_Win32.c"
 
 #else
