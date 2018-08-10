@@ -23,7 +23,8 @@ bin/ld42: usr/lib/wpl.o src/*
 		-o bin/ld42
 	#end
 
-.PHONY: clean run
+
+.PHONY: clean run bundle
 run: bin/ld42
 	bin/ld42 &>/dev/null &
 
@@ -32,3 +33,16 @@ clean:
 	rm -f usr/lib/ld42.o
 	rm -f usr/lib/wpl.o
 
+bundle: 
+	mkdir bin/LD42.app
+	mkdir bin/LD42.app/Content/
+	mkdir bin/LD42.app/Content/Resources
+	mkdir bin/LD42.app/Content/Frameworks
+	mkdir bin/LD42.app/Content/MacOS
+	cp -R usr/lib/SDL2.framework bin/LD42.app/Content/Frameworks
+	cp bin/ld42 bin/LD42.app/Content/MacOS
+	cp -R bin/assets bin/LD42.app/Content/MacOS
+
+install:
+	echo "Copying SDL2.framework to ~/Library/Frameworks"
+	cp -R usr/lib/SDL2.framework ~/Library/Frameworks
