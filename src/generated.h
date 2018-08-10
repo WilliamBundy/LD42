@@ -245,6 +245,12 @@ struct Game
 	wState *state;
 	wInputState *input;
 	wMixer *mixer;
+	wTextureAtlas *atlas;
+	isize textureCount;
+	string textureNames[32];
+	wTextureSegmentGrid textureGrids[32];
+	wHotFile *textures[32];
+	wTexture *textureData[32];
 	wHotFile *fragShader;
 	wHotFile *vertShader;
 	wShader *shader;
@@ -252,6 +258,7 @@ struct Game
 	wFontInfo *bodyFont;
 	wFontInfo *monoFont;
 	wFontInfo *titleFont;
+	SpriteBatch *batch;
 };
 
 u64 u64rand(RandomState* r);
@@ -318,6 +325,8 @@ i32 guiIcoSelector(Gui* gui, Rect2i icon, i32 selected, f32 scale);
 i32 guiIcoBtn(Gui* gui, Rect2i icon);
 void guiLabel(Gui* gui, string text);
 void guiLabelEx(Gui* gui, string text, wFontInfo* font, f32 pointSize, f32 tracking, i32 isMono);
+void assets_loadFonts();
+void assets_initFonts();
 void load();
 void init();
 void update();

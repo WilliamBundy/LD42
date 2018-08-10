@@ -23,6 +23,8 @@ Game* game = NULL;
 #include "sprite.c"
 #include "ui.c"
 
+#include "assets.c"
+
 #ifndef WirmphtEnabled
 struct Game
 {
@@ -33,6 +35,13 @@ struct Game
 	wInputState* input;
 	wMixer* mixer;
 
+	wTextureAtlas* atlas;
+	isize textureCount;
+	string textureNames[32];
+	wTextureSegmentGrid textureGrids[32];
+	wHotFile* textures[32]; 
+	wTexture* textureData[32];
+
 	wHotFile* fragShader;
 	wHotFile* vertShader;
 	wShader* shader;
@@ -41,16 +50,19 @@ struct Game
 	wFontInfo* bodyFont;
 	wFontInfo* monoFont;
 	wFontInfo* titleFont;
+
+	SpriteBatch* batch;
 };
 #endif
 
 void load()
 {
+	assets_loadFonts();
 }
-
 
 void init()
 {
+	assets_initFonts();
 }
 
 i32 checkUpdateTimer = 60;
@@ -63,6 +75,9 @@ void update()
 			checkUpdateTimer += 60;
 		}
 	}
+
+	drawTitleText(game->batch, v2(100, 100), "Hello Ludum Dare 42!!!", 1, 1);
+	drawSprites(game->batch);
 
 	// game loop here
 }
@@ -88,8 +103,8 @@ int main(int argc, char** argv)
 	 
 	load();
 
-	//createGraphicsDependencies();
-	//game.batch = createSpriteBatch(4096 * 4096, game.arena);
+	createGraphicsDependencies();
+	game->batch = createSpriteBatch(4096 * 4096, game->arena);
 	
 	init();
 

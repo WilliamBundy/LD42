@@ -148,11 +148,11 @@ void updateGraphicsDependencies()
 {
 	i32 rebuildShaders = 0;
 	if(wCheckHotFile(game->fragShader) || wCheckHotFile(game->vertShader)) {
-		wLogError(0, "Updated shaders\n");
+		//wLogError(0, "Updated shaders\n");
 		wUpdateHotFile(game->vertShader);
 		wUpdateHotFile(game->fragShader);
-		wLogError(0, "vert size %d\n", game->vertShader->size);
-		wLogError(0, "fragSize size %d\n", game->fragShader->size);
+		//wLogError(0, "vert size %d\n", game->vertShader->size);
+		//wLogError(0, "fragSize size %d\n", game->fragShader->size);
 		wDeleteShaderProgram(game->shader);
 		wAddSourceToShader(game->shader, game->vertShader->data, wShader_Vertex);
 		wAddSourceToShader(game->shader, game->fragShader->data, wShader_Frag);
@@ -162,15 +162,14 @@ void updateGraphicsDependencies()
 
 void addTextureToGame(string file, wTextureSegmentGrid grid)
 {
-	//game->textureNames[game->textureCount] = file;
-	//game->textureGrids[game->textureCount++] = grid;
+	game->textureNames[game->textureCount] = file;
+	game->textureGrids[game->textureCount++] = grid;
 }
 
 Rect2i getSegment(string name)
 {
-	//wTextureSegment* seg = wFindSegment(game->atlas, name);
-	//return r2i(seg->x, seg->y, seg->w, seg->h);
-	return r2i(0, 0, 0, 0);
+	wTextureSegment* seg = wFindSegment(game->atlas, name);
+	return r2i(seg->x, seg->y, seg->w, seg->h);
 }
 	
 Sprite* getSprite(SpriteBatch* batch)
@@ -190,24 +189,25 @@ Sprite* addSprite(SpriteBatch* batch, Sprite sprite)
 
 void createGraphicsDependencies()
 {
-	/*
-	wInitAtlas(&game->atlas, 2048, game->arena);
+	
+	game->atlas = wArenaPush(game->arena, sizeof(wTextureAtlas));
+	wInitAtlas(game->atlas, 2048, game->arena);
 	for(isize i = 0; i < game->textureCount; ++i) {
-		game->textures[i] = wCreateHotFile(&game->window, game->textureNames[i]);
+		game->textures[i] = wCreateHotFile(game->window, game->textureNames[i]);
 		wHotFile* texture = game->textures[i];
 		game->textureData[i] = wArenaPush(game->arena, sizeof(wTexture));
 		wInitTexture(game->textureData[i], texture->data, texture->size);
 		wTextureSegmentGrid* g = game->textureGrids + i;
-		wAddSegmentGrid(&game->atlas, game->textureData[i], g);
+		wAddSegmentGrid(game->atlas, game->textureData[i], g);
 	}
 
-	wAtlasCreateTexture(&game->atlas, 2048, game->arena);
+	wAtlasCreateTexture(game->atlas, 2048, game->arena);
 	wArenaStartTemp(game->arena);
-	wFinalizeAtlas(&game->atlas, game->arena);
+	wFinalizeAtlas(game->atlas, game->arena);
 	wArenaEndTemp(game->arena);
-	wUploadTexture(&game->atlas.texture);
-	game->texture = &game->atlas.texture;
-*/
+	wUploadTexture(&game->atlas->texture);
+	game->texture = &game->atlas->texture;
+
 
 #if 0
 	isize textureSize = 0;
@@ -221,10 +221,12 @@ void createGraphicsDependencies()
 	game->fragShader = wCreateHotFile(game->window, "assets/GL33_frag.glsl");
 	game->vertShader->replaceBadSpaces = 1;
 	game->fragShader->replaceBadSpaces = 1;
+#if 0
 	wLogError(0, "frag size: %zd\nvert size: %zd\ntex size %zd\n",
 			game->fragShader->size,
 			game->vertShader->size,
 			0);
+#endif
 
 	game->shader = wArenaPush(game->arena, sizeof(wShader));
 	wInitShader(game->shader, sizeof(Sprite));
@@ -319,7 +321,7 @@ SpriteList drawBodyText(SpriteBatch* batch, Vec2 pos, string text, i32 color)
 SpriteList drawTitleText(SpriteBatch* batch, Vec2 pos, string text, i32 color, f32 scale)
 {
 	return renderText(batch, game->titleFont, pos.x, pos.y, text, -1, 
-			32.0 * scale / batch->scale, 0, color ? 0xFFFFFFFF : 0xFF, 0.85, 0);
+			32.0 * scale / batch->scale, 0, color ? 0xFFFFFFFF : 0xFF, 0.95, 0);
 }
 #endif
 

@@ -9,9 +9,9 @@ disabled=/wd4477\
 		 /D_CRT_SECURE_NO_WARNINGS
 name=LD42
 .SILENT:
-all: start libsdl gameSDL end
+all: windows.mak start usr/lib/wpl.lib bin/LD42.exe end
 
-libsdl: 
+usr/lib/wpl.lib: src/wpl/*
 	cl /nologo /c /TC /Zi /Gd /EHsc \
 		/W3 /fp:fast $(disabled) \
 		/I"usr/include" /DWPL_WINDOWS /DWPL_SDL_BACKEND \
@@ -28,7 +28,7 @@ libwin32:
 	lib /NOLOGO /SUBSYSTEM:WINDOWS /LIBPATH:"usr/lib" \
 		/NODEFAULTLIB wpl.obj  /OUT:"usr/lib/wpl.lib"
 
-gameSDL: 
+bin/LD42.exe:  src/*
 	echo bin/$(name).exe (SDL)
 	$(wirmpht) -p -s -t src/main.c > src/generated.h
 	cl /nologo /TC /Zi /Gd /EHsc /W3 \
