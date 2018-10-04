@@ -76,7 +76,7 @@ void update()
 		}
 	}
 
-	drawTitleText(game->batch, v2(100, 100), "Hello Ludum Dare 42!!!", 1, 1);
+	drawTitleText(game->batch, v2(100, 100), "Hello Lambda School Students", 1, 1);
 	drawSprites(game->batch);
 
 	// game loop here
